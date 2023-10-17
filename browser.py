@@ -60,6 +60,7 @@ def access_administration_site(server, browser):
     password = "admin123"
     print('Accessing administration site...', end=''),
     browser.get('{}/'.format(server))
+    sleep(1)
     browser.get('{}/#/login'.format(server))
     sleep(2)
     browser.find_element(by=By.NAME, value="email").send_keys(login)
@@ -80,7 +81,6 @@ def travel_back_in_time(server, browser):
     browser.refresh()
     print('Success.')
 
-
 def take_screenshot_of_score_and_quit(server, browser):
     print('Taking screenshot...', end=''),
     browser.get('{}/#/score-board'.format(server))
@@ -89,8 +89,6 @@ def take_screenshot_of_score_and_quit(server, browser):
     print('complete.png saved successfully.')
     browser.quit()
 
-
-
 def solve_browser_challenges(server):
     print('\n== BROWSER CHALLENGES ==\n')
     try:
@@ -98,13 +96,15 @@ def solve_browser_challenges(server):
     except Exception as err:
         print('Unknown Selenium exception. Have you added the Chromedriver to your PATH?\n{}'.format(repr(err)))
         return
-    # open_dom_xss_alert(server, browser)
-    # bonus_xss_payload(server, browser)
-    # directory_listing(server, browser)
-    # error_handlind(server, browser)
-    # dev_backup_null_byte(server, browser)
-    # union_select(server, browser)
+    open_dom_xss_alert(server, browser)
+    bonus_xss_payload(server, browser)
     access_administration_site(server, browser)
     #travel_back_in_time(server, browser)
     #take_screenshot_of_score_and_quit(server, browser)
     print('\n== BROWSER CHALLENGES COMPLETE ==\n')
+
+    # The same challanges solved in browser
+    # directory_listing(server, browser)
+    # error_handlind(server, browser)
+    # dev_backup_null_byte(server, browser)
+    # union_select(server, browser)

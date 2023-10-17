@@ -41,7 +41,6 @@ def send_feedback(server, session, payload):
     submit = session.post('{}/api/Feedbacks'.format(server),
                           headers={'Content-type': 'application/json'},
                           data=json.dumps(payload))
-    
     print(submit)
     # if not submit.ok:
     #     raise RuntimeError('Error submitting feedback.')
@@ -81,7 +80,7 @@ def solve_feedback_challenges(server):
     session = get_admin_session(server)
     submit_zero_star_feedback(server, session)
     #submit_xss4_feedback(server, session)
-    inform_shop_of_problem_libraries(server, session)
-    ##submit_feedback_as_another_user(server)
-    ##delete_all_feedback(server, session)
+    #inform_shop_of_problem_libraries(server, session)
+    #submit_feedback_as_another_user(server) #done
+    #delete_all_feedback(server, session) #done
     print('\n== FEEDBACK CHALLENGES COMPLETE ==\n')
