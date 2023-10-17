@@ -46,7 +46,9 @@ def _do_login(server, payload, headers=None):
                          data=payload)
     if not login.ok:
         raise RuntimeError('Error logging in. Content: {}'.format(login.content))
-    token = login.json().get('token')
+    #token = login.json().get('token')
+    login_dict=(login.json())
+    token = login_dict['authentication']['token']
     session.cookies.set('token', token)
     session.headers.update({'Authorization': 'Bearer {}'.format(token)})
     return session
@@ -73,7 +75,10 @@ def whoami(server, session):
     :param session: Session
     :return: response body as dict
     """
-    who = session.get('{}/rest/user/whoami'.format(server), headers={'Accept': 'application/json'})
+    who = session.get('{}/rest/user/whoami'.format(server))
+
+    #who = session.get('{}/rest/user/whoami'.format(server), headers={'Accept': 'application/json'})
+    #print("DEB/WHO:", who.json())
     if not who.ok:
         raise RuntimeError('Error retrieving current user details')
     return who.json()
@@ -86,4 +91,7 @@ def get_current_user_id(server, session):
     :param session: Session
     :return: ID as int
     """
-    return whoami(server, session).get('id')
+    
+    myid=whoami(server, session)['user']['id']
+
+    return myid

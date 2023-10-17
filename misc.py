@@ -16,7 +16,7 @@ def provoke_error(server, session):
     :param session: Session
     """
     try:
-        print('Trying to cause an unhandled error...'),
+        print('Trying to cause an unhandled error...', end=""),
         search_products(server, session, "'))")
         print('Well that didn\'t work.')
     except RuntimeError:
@@ -66,7 +66,7 @@ def check_all_language_files(server, session):
     :param server: juice shop URL
     :param session: Session
     """
-    print('\nBrute forcing scan of language files on the server...')
+    print('\nBrute forcing scan of language files on the server...', end="")
     with open('language_codes.json', 'rb') as infile:
         languages = json.loads(infile.read())
     for lang in languages:
@@ -165,7 +165,7 @@ def solve_challenge_99(server, session):
     :param session: Session
     """
     code = _generate_continue_code(99)
-    print('Trying to solve challenge 99...'),
+    print('Trying to solve challenge 99...', end=""),
     continurl = '{}/rest/continue-code/apply/{}'.format(server, code)
     attempt = session.put(continurl)
     if not attempt.ok:
@@ -181,6 +181,6 @@ def solve_misc_challenges(server):
     bypass_redirect_whitelist(server, session)
     check_all_language_files(server, session)
     provoke_error(server, session)
-    decrypt_easter_egg(server, session)
+    #decrypt_easter_egg(server, session)
     solve_challenge_99(server, session)
     print('\n== MISC CHALLENGES COMPLETE ==\n')
