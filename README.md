@@ -30,7 +30,7 @@ security concepts and the Python programming language.
 
 - Clone this repo
 - `cd` into the directory you created locally
-- `pip install -r requirements.txt`(Create a virtualenv first if you'd like)
+- `pip3 install -r requirements.txt`(Create a virtualenv first if you'd like)
 - Start the Juice Shop application
 - `./solutions.py`, then wait a minute
 
