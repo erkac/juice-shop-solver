@@ -41,6 +41,13 @@ def error_handlind(server, browser):
     sleep(3)
     print('Success.')
 
+def privacy_policy(server, browser):
+    print('Error handling...', end=''),
+    url = '{}/#/privacy-security/privacy-policy'.format(server)
+    browser.get(url)
+    sleep(3)
+    print('Success.')
+
 def dev_backup_null_byte(server, browser):
     print('Forgottent Dev Backup & Null Byte Challange...', end=''),
     url = '{}/ftp/package.json.bak%2500.md'.format(server)
@@ -99,8 +106,8 @@ def solve_browser_challenges(server):
     open_dom_xss_alert(server, browser)
     bonus_xss_payload(server, browser)
     access_administration_site(server, browser)
-    #travel_back_in_time(server, browser)
-    #take_screenshot_of_score_and_quit(server, browser)
+    privacy_policy(server, browser)
+    take_screenshot_of_score_and_quit(server, browser)
     print('\n== BROWSER CHALLENGES COMPLETE ==\n')
 
     # The same challanges solved in browser

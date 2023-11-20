@@ -10,9 +10,9 @@ from users import solve_user_challenges
 
 server = 'http://localhost:8080'
 session = get_admin_session(server)
-# solve_file_handling_challenges(server)
-# solve_user_challenges(server)
+solve_browser_challenges(server)
+solve_file_handling_challenges(server)
+solve_user_challenges(server)
 solve_feedback_challenges(server)
-# solve_product_challenges(server)
-# solve_misc_challenges(server)
-#solve_browser_challenges(server)
+solve_product_challenges(server)
+solve_misc_challenges(server)
