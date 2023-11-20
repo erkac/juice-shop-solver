@@ -47,6 +47,28 @@ def access_administration(server, session):
     if not admin.ok:
         raise RuntimeError('Error accessing administration asset.')
 
+def prometheus_metrics(server, session):
+    """
+    Find the endpoint that serves usage data to be scraped by a popular monitoring system.
+    :param server: juice shop URL
+    :param session: Session
+    """
+    tracking = '{}/metrics'.format(server)
+    admin = session.get(tracking)
+    if not admin.ok:
+        raise RuntimeError('Error accessing prometheus metrics.')
+
+def klingon_language(server, session):
+    """
+    Retrieve the language file that never made it into production.
+    :param server: juice shop URL
+    :param session: Session
+    """
+    tracking = '{}/assets/i18n/tlh_AA.json'.format(server)
+    admin = session.get(tracking)
+    if not admin.ok:
+        raise RuntimeError('Error accessing klingon language json.')
+
 
 def bypass_redirect_whitelist(server, session):
     """
@@ -183,4 +205,5 @@ def solve_misc_challenges(server):
     provoke_error(server, session)
     #decrypt_easter_egg(server, session)
     solve_challenge_99(server, session)
+    prometheus_metrics(server, session)
     print('\n== MISC CHALLENGES COMPLETE ==\n')

