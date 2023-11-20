@@ -178,7 +178,7 @@ def solve_misc_challenges(server):
     session = get_admin_session(server)
     access_score_board(server, session)
     access_administration(server, session)
-    bypass_redirect_whitelist(server, session)
+    #bypass_redirect_whitelist(server, session)
     check_all_language_files(server, session)
     provoke_error(server, session)
     #decrypt_easter_egg(server, session)
