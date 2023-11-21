@@ -104,7 +104,7 @@ def deprecated_b2b(server, session):
         session = get_admin_session(server)
         upload = session.post('{}/file-upload'.format(server), files=files)
         if not upload.ok:
-            raise RuntimeError('Error uploading file.')
+            print('Error uploading file.')
         print('Success.')
     os.remove(filename)
 
