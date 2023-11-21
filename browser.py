@@ -88,18 +88,20 @@ def travel_back_in_time(server, browser):
     browser.refresh()
     print('Success.')
 
-def take_screenshot_of_score_and_quit(server, browser):
-    print('Taking screenshot...', end=''),
-    browser.get('{}/#/score-board'.format(server))
-    with open('complete.png', 'wb') as outfile:
-        outfile.write(browser.get_screenshot_as_png())
-    print('complete.png saved successfully.')
-    browser.quit()
-
 def redirect_whitelist(server, browser):
     print('Redirect...', end=''),
     browser.get('{}/redirect?to=http://kimminich.de?pwned=https://github.com/bkimminich/juice-shop'.format(server))
     print('Success.')
+
+def take_screenshot_of_score_and_quit(server, browser):
+    print('Score board...', end=''),
+    browser.get('{}/#/score-board'.format(server))
+    # with open('complete.png', 'wb') as outfile:
+    #     outfile.write(browser.get_screenshot_as_png())
+    # print('complete.png saved successfully.')
+    print('Success.')
+    browser.quit()
+
 
 def solve_browser_challenges(server):
     print('\n== BROWSER CHALLENGES ==\n')
