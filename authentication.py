@@ -4,6 +4,8 @@ import requests
 import logging
 import http.client as http_client
 
+requests.packages.urllib3.disable_warnings()
+
 # http_client.HTTPConnection.debuglevel = 1
 # logging.basicConfig()
 # logging.getLogger().setLevel(logging.DEBUG)
