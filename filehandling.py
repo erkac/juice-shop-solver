@@ -1,6 +1,9 @@
 import os
+import datetime
 
 from authentication import get_admin_session
+
+
 
 
 def get_ftp_file_list(server, session):
@@ -61,7 +64,10 @@ def download_access_log(server, session):
     :param session: Requests session
     :return: Response
     """
-    tracking = '{}/support/logs/access.log.2023-11-20'.format(server)
+    current_date = datetime.date.today()
+    current_day = current_date.day
+
+    tracking = '{}/support/logs/access.log.2023-11-{}'.format(server, current_day)
     admin = session.get(tracking)
     if not admin.ok:
         raise RuntimeError('Error accessing prometheus metrics.')

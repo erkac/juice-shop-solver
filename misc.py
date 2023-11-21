@@ -53,8 +53,8 @@ def prometheus_metrics(server, session):
     :param server: juice shop URL
     :param session: Session
     """
-    tracking = '{}/metrics'.format(server)
-    admin = session.get(tracking)
+    prometheus = '{}/metrics'.format(server)
+    admin = session.get(prometheus)
     if not admin.ok:
         raise RuntimeError('Error accessing prometheus metrics.')
 
@@ -64,8 +64,8 @@ def klingon_language(server, session):
     :param server: juice shop URL
     :param session: Session
     """
-    tracking = '{}/assets/i18n/tlh_AA.json'.format(server)
-    admin = session.get(tracking)
+    klingon = '{}/assets/i18n/tlh_AA.json'.format(server)
+    admin = session.get(klingon)
     if not admin.ok:
         raise RuntimeError('Error accessing klingon language json.')
 
