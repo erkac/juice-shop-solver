@@ -205,5 +205,5 @@ def solve_misc_challenges(server):
     #decrypt_easter_egg(server, session)
     solve_challenge_99(server, session)
     prometheus_metrics(server, session)
-    bypass_redirect_whitelist(server, session)
+    #bypass_redirect_whitelist(server, session)
     print('\n== MISC CHALLENGES COMPLETE ==\n')

