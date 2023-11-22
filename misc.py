@@ -59,10 +59,13 @@ def prometheus_metrics(server, session):
     :param server: juice shop URL
     :param session: Session
     """
-    prometheus = '{}/metrics'.format(server)
-    admin = session.get(prometheus)
-    if not admin.ok:
-        print('Error accessing prometheus metrics.')
+    try:
+      prometheus = '{}/metrics'.format(server)
+      admin = session.get(prometheus)
+      if not admin.ok:
+          print('Error accessing prometheus metrics.')
+    except:
+      print('Failed!')
 
 def klingon_language(server, session):
     """
@@ -70,10 +73,13 @@ def klingon_language(server, session):
     :param server: juice shop URL
     :param session: Session
     """
-    klingon = '{}/assets/i18n/tlh_AA.json'.format(server)
-    admin = session.get(klingon)
-    if not admin.ok:
-        print('Error accessing klingon language json.')
+    try:
+      klingon = '{}/assets/i18n/tlh_AA.json'.format(server)
+      admin = session.get(klingon)
+      if not admin.ok:
+          print('Error accessing klingon language json.')
+    except:
+      print('Failed!')
 
 
 def bypass_redirect_whitelist(server, session):
@@ -150,8 +156,11 @@ def _get_real_easter_egg_text(server, session):
 
 
 def _convert_contents_to_non_empty_list(text):
-    lines = text.split('\r\n')
-    return filter(None, lines)
+    try:
+      lines = text.split('\r\n')
+      return filter(None, lines)
+    except:
+      print('Failed!')
 
 
 def decrypt_easter_egg(server, session):
