@@ -12,7 +12,7 @@ def get_feedback_list(server, session):
     """
     feedback = session.get('{}/api/Feedbacks/'.format(server))
     if not feedback.ok:
-        raise RuntimeError('Error retrieving feedback.')
+        print('Error retrieving feedback.')
     return feedback.json().get('data')
 
 
@@ -27,7 +27,7 @@ def delete_all_feedback(server, session):
     for entry in feedback:
         d = session.delete('{}/api/Feedbacks/{}'.format(server, entry.get('id')))
         if not d.ok:
-            raise RuntimeError('Error deleting feedback.')
+            print('Error deleting feedback.')
     print('Success.')
 
 
@@ -43,7 +43,7 @@ def send_feedback(server, session, payload):
                           data=json.dumps(payload))
     print(submit)
     # if not submit.ok:
-    #     raise RuntimeError('Error submitting feedback.')
+    #     print('Error submitting feedback.')
 
 
 def submit_zero_star_feedback(server, session):

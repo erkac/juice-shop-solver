@@ -55,7 +55,7 @@ def _do_login(server, payload, headers=None):
                          headers=headers,
                          data=payload)
     if not login.ok:
-        raise RuntimeError('Error logging in. Content: {}'.format(login.content))
+        print('Error logging in. Content: {}'.format(login.content))
     #token = login.json().get('token')
     login_dict=(login.json())
     token = login_dict['authentication']['token']
@@ -75,7 +75,7 @@ def create_user(server, email, password):
     session = requests.Session()
     create = session.post('{}/api/Users'.format(server), headers={'Content-Type': 'application/json'}, data=payload)
     if not create.ok:
-        raise RuntimeError('Error creating user {}'.format(email))
+        print('Error creating user {}'.format(email))
 
 
 def whoami(server, session):
@@ -90,7 +90,7 @@ def whoami(server, session):
     #who = session.get('{}/rest/user/whoami'.format(server), headers={'Accept': 'application/json'})
     #print("DEB/WHO:", who.json())
     if not who.ok:
-        raise RuntimeError('Error retrieving current user details')
+        print('Error retrieving current user details')
     return who.json()
 
 

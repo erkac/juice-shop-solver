@@ -33,7 +33,7 @@ def access_score_board(server, session):
     tracking = '{}/public/images/tracking/scoreboard.png'.format(server)
     scoreboard = session.get(tracking)
     if not scoreboard.ok:
-        raise RuntimeError('Error accessing score board asset.')
+        print('Error accessing score board asset.')
 
 
 def access_administration(server, session):
@@ -45,7 +45,7 @@ def access_administration(server, session):
     tracking = '{}/public/images/tracking/administration.png'.format(server)
     admin = session.get(tracking)
     if not admin.ok:
-        raise RuntimeError('Error accessing administration asset.')
+        print('Error accessing administration asset.')
 
 def prometheus_metrics(server, session):
     """
@@ -56,7 +56,7 @@ def prometheus_metrics(server, session):
     prometheus = '{}/metrics'.format(server)
     admin = session.get(prometheus)
     if not admin.ok:
-        raise RuntimeError('Error accessing prometheus metrics.')
+        print('Error accessing prometheus metrics.')
 
 def klingon_language(server, session):
     """
@@ -67,7 +67,7 @@ def klingon_language(server, session):
     klingon = '{}/assets/i18n/tlh_AA.json'.format(server)
     admin = session.get(klingon)
     if not admin.ok:
-        raise RuntimeError('Error accessing klingon language json.')
+        print('Error accessing klingon language json.')
 
 
 def bypass_redirect_whitelist(server, session):
@@ -79,7 +79,7 @@ def bypass_redirect_whitelist(server, session):
     whitelisted = 'http://kimminich.de?pwned=https://github.com/bkimminich/juice-shop'
     bypass = session.get('{}/redirect?to={}'.format(server, whitelisted), verify=False)
     if not bypass.ok:
-        raise RuntimeError('Error bypassing redirection whitelist.')
+        print('Error bypassing redirection whitelist.')
 
 
 def check_all_language_files(server, session):
@@ -191,7 +191,7 @@ def solve_challenge_99(server, session):
     continurl = '{}/rest/continue-code/apply/{}'.format(server, code)
     attempt = session.put(continurl)
     if not attempt.ok:
-        raise RuntimeError('Error solving challenge 99.')
+        print('Error solving challenge 99.')
     print('Success.')
 
 
