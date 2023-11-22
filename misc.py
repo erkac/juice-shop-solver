@@ -30,10 +30,13 @@ def access_score_board(server, session):
     :param server: juice shop url
     :param session: Session
     """
-    tracking = '{}/public/images/tracking/scoreboard.png'.format(server)
-    scoreboard = session.get(tracking)
-    if not scoreboard.ok:
-        print('Error accessing score board asset.')
+    try:
+      tracking = '{}/public/images/tracking/scoreboard.png'.format(server)
+      scoreboard = session.get(tracking)
+      if not scoreboard.ok:
+          print('Error accessing score board asset.')
+    except:
+      print('Failed!')
 
 
 def access_administration(server, session):
@@ -42,10 +45,13 @@ def access_administration(server, session):
     :param server: juice shop URL
     :param session: Session
     """
-    tracking = '{}/public/images/tracking/administration.png'.format(server)
-    admin = session.get(tracking)
-    if not admin.ok:
-        print('Error accessing administration asset.')
+    try:
+      tracking = '{}/public/images/tracking/administration.png'.format(server)
+      admin = session.get(tracking)
+      if not admin.ok:
+          print('Error accessing administration asset.')
+    except:
+      print('Failed!')
 
 def prometheus_metrics(server, session):
     """
