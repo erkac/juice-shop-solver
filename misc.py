@@ -218,7 +218,10 @@ def solve_misc_challenges(server):
       print('access_score_board - FAILED')
     access_administration(server, session)
     check_all_language_files(server, session)
-    provoke_error(server, session)
+    try:
+      provoke_error(server, session)
+    except:
+        print('provoke_error - FAILED')
     #decrypt_easter_egg(server, session)
     solve_challenge_99(server, session)
     prometheus_metrics(server, session)
