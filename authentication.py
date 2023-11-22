@@ -48,19 +48,22 @@ def _do_login(server, payload, headers=None):
     :param headers: optional headers to use for the request. Sets content-type to JSON if omitted.
     :return: Session
     """
-    session = requests.Session()
-    if headers is None:
-        headers = {'Content-Type': 'application/json'}
-    login = session.post('{}/rest/user/login'.format(server),
-                         headers=headers,
-                         data=payload)
-    if not login.ok:
-        print('Error logging in. Content: {}'.format(login.content))
-    #token = login.json().get('token')
-    login_dict=(login.json())
-    token = login_dict['authentication']['token']
-    session.cookies.set('token', token)
-    session.headers.update({'Authorization': 'Bearer {}'.format(token)})
+    try:
+      session = requests.Session()
+      if headers is None:
+          headers = {'Content-Type': 'application/json'}
+      login = session.post('{}/rest/user/login'.format(server),
+                          headers=headers,
+                          data=payload)
+      if not login.ok:
+          print('Error logging in. Content: {}'.format(login.content))
+      #token = login.json().get('token')
+      login_dict=(login.json())
+      token = login_dict['authentication']['token']
+      session.cookies.set('token', token)
+      session.headers.update({'Authorization': 'Bearer {}'.format(token)})
+    except:
+      print('failed')
     return session
 
 
