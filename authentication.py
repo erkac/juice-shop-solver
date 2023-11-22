@@ -23,12 +23,15 @@ def get_session(server, email, password, headers=None, oauth=False):
     :param oauth: boolean. Exclude if False, if True include "oauth: true" in payload
     :return: Session
     """
-    payload = {'email': email, 'password': password}
-    if oauth:
-        payload.update(oauth=True)
-    payload = json.dumps(payload)
-    return _do_login(server, payload, headers=headers)
-
+    try:
+      payload = {'email': email, 'password': password}
+      if oauth:
+          payload.update(oauth=True)
+      payload = json.dumps(payload)
+      return _do_login(server, payload, headers=headers)
+    except:
+      print('Failed!')
+      return
 
 def get_admin_session(server):
     """
