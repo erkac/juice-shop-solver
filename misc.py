@@ -21,7 +21,6 @@ def provoke_error(server, session):
         print('Well that didn\'t work.')
     except RuntimeError:
         print('Success.')
-        pass
 
 
 def access_score_board(server, session):
