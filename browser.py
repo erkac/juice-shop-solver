@@ -110,12 +110,30 @@ def solve_browser_challenges(server):
     except Exception as err:
         print('Unknown Selenium exception. Have you added the Chromedriver to your PATH?\n{}'.format(repr(err)))
         return
-    open_dom_xss_alert(server, browser)
-    bonus_xss_payload(server, browser)
-    access_administration_site(server, browser)
-    privacy_policy(server, browser)
-    redirect_whitelist(server, browser)
-    take_screenshot_of_score_and_quit(server, browser)
+    try:
+      open_dom_xss_alert(server, browser)
+    except:
+      print('open_dom_xss_alert - FAILED')
+    try:
+      bonus_xss_payload(server, browser)
+    except:
+      print('bonus_xss_payload - FAILED')
+    try:
+      access_administration_site(server, browser)
+    except:
+      print('access_administration_site - FAILED')
+    try:
+      privacy_policy(server, browser)
+    except:
+      print('privacy_policy - FAILED')
+    try:
+      redirect_whitelist(server, browser)
+    except:
+      print('redirect_whitelist - FAILED')
+    try:
+      take_screenshot_of_score_and_quit(server, browser)
+    except:
+      print('take_screenshot_of_score_and_quit - FAILED')
     print('\n== BROWSER CHALLENGES COMPLETE ==\n')
 
     # The same challanges solved in browser
