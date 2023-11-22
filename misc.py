@@ -213,7 +213,10 @@ def solve_challenge_99(server, session):
 def solve_misc_challenges(server):
     print('\n== MISC CHALLENGES ==\n')
     session = get_admin_session(server)
-    access_score_board(server, session)
+    try:
+      access_score_board(server, session)
+    except:
+      print('access_score_board - FAILED')
     access_administration(server, session)
     check_all_language_files(server, session)
     provoke_error(server, session)
