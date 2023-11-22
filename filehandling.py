@@ -129,9 +129,24 @@ def solve_file_upload_challenges(server, session):
 
 def solve_file_handling_challenges(server):
     print('\n== FILE HANDLING CHALLENGES ==\n')
-    session = get_admin_session(server)
-    download_files_from_ftp(server, session)
-    solve_file_upload_challenges(server, session)
-    download_access_log(server, session)
-    deprecated_b2b(server, session)
+    try:
+      session = get_admin_session(server)
+    except:
+      print('get_admin_session - FAILED')
+    try:
+      download_files_from_ftp(server, session)
+    except:
+      print('download_files_from_ftp - FAILED')
+    try:
+      solve_file_upload_challenges(server, session)
+    except:
+      print()
+    try:
+      download_access_log(server, session)
+    except:
+      print()
+    try:
+      deprecated_b2b(server, session)
+    except:
+      print()
     print('\n== FILE HANDLING CHALLENGES COMPLETE ==\n')
